@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MONTH="$(date +%B)"
-DAY="20" #"$(date +%d)" #"20"
+DAY="$(date +%d)"
 YEAR="$(date +%Y)"
 REPORT_URL="https://www.azgfd.com/fishing-report-$MONTH-$DAY-$YEAR/"
 CHECK_REPORT_URL="https://www.azgfd.com/category/news/"
