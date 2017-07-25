@@ -1,10 +1,25 @@
 #!/bin/bash
 
-MONTH="$(date +%B)"
-DAY="$(date +%d)"
-YEAR="$(date +%Y)"
-REPORT_URL="https://www.azgfd.com/fishing-report-$MONTH-$DAY-$YEAR/"
+# File: get_report.sh
+# Author: Lucas McQuiston
+# Purpose: This file will check to see if the current date matches the date
+# of the latest fishing report from the AZFGD website. If there is a report
+# for that day, the script will extract the fishing report for a particular
+# lake that is specified. The info is retrived using the bash command curl.
+# The report is then passed into the python script send_report.py to handle
+# the html in the report and finally email the specified fishing report to
+# the specified email address.
+
+
+MONTH="$(date +%B)"		# the current month
+DAY="$(date +%d)"		# the current day
+YEAR="$(date +%Y)"		# the current year
+
+# The AZFGD webpage used to determine if a new fishing report is out.
 CHECK_REPORT_URL="https://www.azgfd.com/category/news/"
+
+# AZFGD webpage with the fishing report for the current week.
+REPORT_URL="https://www.azgfd.com/fishing-report-$MONTH-$DAY-$YEAR/"
 
 
 # Check to see if there is a new fishing report present on the AZFGD website.
