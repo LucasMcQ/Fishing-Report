@@ -9,7 +9,9 @@ fishing report to the specified email addresses.
 # To Run:
 
 cd .../fishing-report
+
 chmod +x get_report.sh
+
 python send_report.py
 
 After the script has been executed, if the current date is the date of the
