@@ -12,8 +12,10 @@
 
 
 MONTH="$(date +%B)"		# the current month
-DAY="$(date +%d)"		# the current day
+DAY=20 #"$(date +%d)"		# the current day
 YEAR="$(date +%Y)"		# the current year
+
+LAKE_NAME="BARTLETT LAKE"	# the desired lake for the fishing report
 
 # The AZFGD webpage used to determine if a new fishing report is out.
 CHECK_REPORT_URL="https://www.azgfd.com/category/news/"
@@ -25,6 +27,7 @@ REPORT_URL="https://www.azgfd.com/fishing-report-$MONTH-$DAY-$YEAR/"
 # Check to see if there is a new fishing report present on the AZFGD website.
 curl -s $CHECK_REPORT_URL > check_report.txt
 
+# This will retreive the line that contains the date of the most recent fishing report.
 CURRENT_REPORT="$(grep "Fishing Report" check_report.txt | head -1)"
 
 
@@ -38,7 +41,7 @@ fi
 curl -s $REPORT_URL > fishing_report.txt
 
 # Extract the proper lake info from the curl output.
-sed -n '/BARTLETT LAKE/,/<p><b>/p' fishing_report.txt > bartlett_report_uncut.txt
+sed -n '/'"$LAKE_NAME"'/,/<p><b>/p' fishing_report.txt > bartlett_report_uncut.txt
 
 # Remove the last line of the file (it is redundant).
 head -n -1 bartlett_report_uncut.txt > bartlett_report.txt
