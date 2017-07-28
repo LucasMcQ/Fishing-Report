@@ -12,10 +12,9 @@
 
 
 MONTH="$(date +%B)"		# the current month
-DAY=20 #"$(date +%d)"		# the current day
+DAY="$(date +%d)"		# the current day
 YEAR="$(date +%Y)"		# the current year
 
-LAKE_NAME="BARTLETT LAKE"	# the desired lake for the fishing report
 
 # The AZFGD webpage used to determine if a new fishing report is out.
 CHECK_REPORT_URL="https://www.azgfd.com/category/news/"
@@ -40,15 +39,38 @@ fi
 # This will retreive the latest fishing reports in Arizona.
 curl -s $REPORT_URL > fishing_report.txt
 
-# Extract the proper lake info from the curl output.
-sed -n '/'"$LAKE_NAME"'/,/<p><b>/p' fishing_report.txt > bartlett_report_uncut.txt
 
-# Remove the last line of the file (it is redundant).
-head -n -1 bartlett_report_uncut.txt > bartlett_report.txt
+# This loop will be reading the file emails.txt out of the email_list directory.
+# In the emails.txt file, there are lake names followed by a semi colon, then
+# finished with an email address. The loop will feed the email address into 
+# the send_report.py script. The fishing report will be in the file lake_report.txt
+# which will be emailed to the specified email address in the python script.
+while read line
+do
 
-# Send the email with the fishing report.
-python send_report.py
+
+	LAKE_NAME=$(echo $line | cut -f1 -d-)		# the desired lake for the fishing report
+	EMAIL=$(echo $line | cut -f2 -d-)		# the email the fishing report will be sent to
+
+	#DEBUG
+	#echo "Lake name= $LAKE_NAME"
+	#echo "Email= $EMAIL"
+	#DEBUG
+
+	# Extract the proper lake info from the curl output.
+	sed -n '/'"$LAKE_NAME"'/,/<p><b>/p' fishing_report.txt > lake_report_uncut.txt
+
+	# Remove the last line of the file (it is redundant).
+	head -n -1 lake_report_uncut.txt > lake_report.txt
+
+	# Send the email with the fishing report.
+	python send_report.py "$EMAIL"
+
+
+done < ./email_list/emails.txt
+
+
 
 
 # Cleanup the mess...
-rm bartlett_report_uncut.txt bartlett_report.txt fishing_report.txt check_report.txt config.pyc
+rm lake_report_uncut.txt lake_report.txt fishing_report.txt check_report.txt config.pyc
