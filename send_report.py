@@ -6,16 +6,20 @@
 # Description: 
 
 import config
+import sys
 import smtplib
 import time
 import imaplib
 import email
 
 
+
+TO = sys.argv[1]        # the email that the script will send the fishing report to
+
 def send_email_from_gmail():
 
 	# Save the operation to be performed into the operation var	
-	with open('bartlett_report.txt', 'r') as myfile:
+	with open('lake_report.txt', 'r') as myfile:
 		TEXT = myfile.read()
 
 	# The message that will be sent in the email.		
@@ -48,7 +52,7 @@ def send_email_from_gmail():
 		server.ehlo()
 		server.starttls()
 		server.login(config.FROM_EMAIL, config.FROM_PWD)
-		server.sendmail(config.FROM_EMAIL, config.TO, parsed_message)
+		server.sendmail(config.FROM_EMAIL, TO, parsed_message)
 		server.close()
 
 	except Exception, e:
