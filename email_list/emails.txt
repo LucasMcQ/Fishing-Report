@@ -1,0 +1,5 @@
+In this file, first place the lake name, followed by a semicolon and the
+email address that the fishing report will be sent to.
+
+LAKE 1;EMAIL1@domain.com
+LAKE 2;EMAIL2@domain.com
