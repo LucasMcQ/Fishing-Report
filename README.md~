@@ -12,7 +12,7 @@ cd .../fishing-report
 
 chmod +x get_report.sh
 
-./get_report.sh
+python send_report.py
 
 After the script has been executed, if the current date is the date of the
 most recent fishing report, then an email of the fishing report for the
