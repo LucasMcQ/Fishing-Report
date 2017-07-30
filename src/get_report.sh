@@ -12,7 +12,7 @@
 
 
 MONTH="$(date +%B)"		# the current month
-DAY="$(date +%d)"		# the current day
+DAY=27 #"$(date +%d)"		# the current day
 YEAR="$(date +%Y)"		# the current year
 
 
@@ -58,7 +58,7 @@ do
 	#DEBUG
 
 	# Extract the proper lake info from the curl output.
-	sed -n '/'"$LAKE_NAME"'/,/<p><b>/p' fishing_report.txt > lake_report_uncut.txt
+	sed -n '/<p><b>'"$LAKE_NAME"'/,/<p><b>/p' fishing_report.txt > lake_report_uncut.txt
 
 	# Remove the last line of the file (it is redundant).
 	head -n -1 lake_report_uncut.txt > lake_report.txt

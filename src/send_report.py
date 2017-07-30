@@ -5,10 +5,9 @@
 # Author: Lucas McQuiston
 # Description: 
 
-import config
 import sys
 import smtplib
-import time
+import config
 import imaplib
 import email
 
@@ -25,22 +24,26 @@ def send_email_from_gmail():
 	# The message that will be sent in the email.		
 	message = TEXT
 
-        parsed_message = ""
+        parsed_message = ""     # final message that will be emailed
 
-        i = 0
+        i = 0       # index of the message
 
         while(i < len(message)):
 
-            if(message[i] == '<'):
-                i = scan_past_html(message, i)
-
-            if(message[i] == '&'):
-                while(message[i] != ';'):
-                    i+=1
+            if(message[i] != '<' and message[i] != '&'):
+                parsed_message += message[i]
                 i+=1
+            else:
 
-            parsed_message += message[i]
-            i+=1
+                if(message[i] == '&'):
+                    while(message[i] != ';'):
+                       i+=1
+                    i+=1
+                else:
+                    while(message[i] != '>'):
+                       i += 1
+                    i += 1
+
 
 
 	# Send the email -- David Okwii
@@ -57,22 +60,6 @@ def send_email_from_gmail():
 
 	except Exception, e:
 		print str(e)
-
-
-
-
-def scan_past_html(message, i):
-
-    while(message[i] != '>'):
-        i += 1
-    
-    i += 1
-
-    if(message[i] == '<'):
-        i = scan_past_html(message, i)
-    
-    return i
-
 
 
 send_email_from_gmail()
