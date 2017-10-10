@@ -12,7 +12,7 @@
 
 
 MONTH="$(date +%B)"		# the current month
-DAY=27 #"$(date +%d)"		# the current day
+DAY="$(date +%d)"		# the current day
 YEAR="$(date +%Y)"		# the current year
 
 
